@@ -1,5 +1,5 @@
 # HarmonyOS 仿瑞幸咖啡App  
-([HarmonyOS 仿瑞幸咖啡App.png](https://github.com/Nmc123456/HarmonyOS-Coffee-App/blob/main/HarmonyOS%20%E4%BB%BF%E7%91%9E%E5%B9%B8%E5%92%96%E5%95%A1App.png?raw=true))  
+![项目封面图]([HarmonyOS 仿瑞幸咖啡App.png](https://github.com/Nmc123456/HarmonyOS-Coffee-App/blob/main/HarmonyOS%20%E4%BB%BF%E7%91%9E%E5%B9%B8%E5%92%96%E5%95%A1App.png?raw=true))  
 
 ## 项目简介  
 - **功能**：用户登录、商品展示、购物车、订单管理  
