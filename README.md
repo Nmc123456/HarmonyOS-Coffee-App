@@ -9,7 +9,7 @@
 ## 运行截图  
 | 登录界面 | 商品页面 |  
 |---|---|  
-| ![登录](https://github.com/Nmc123456/HarmonyOS-Coffee-App/blob/main/harmonyos-luckin-coffee-app3.png) | ![商品](截图链接) |  
+| ![登录](https://github.com/Nmc123456/HarmonyOS-Coffee-App/blob/main/harmonyos-luckin-coffee-app3.png) | ![商品](https://github.com/Nmc123456/HarmonyOS-Coffee-App/blob/main/harmonyos-luckin-coffee-app3.png) |  
 
 ## 快速开始  
 1. 克隆仓库：`git clone https://github.com/你的用户名/仓库名.git`  
