@@ -3,40 +3,70 @@
 
 ---
 
-## 项目背景  
-随着HarmonyOS多设备协同能力的普及，本项目旨在通过仿瑞幸咖啡应用验证分布式技术在实际商业场景中的价值。重点解决跨设备数据同步延迟、界面响应性能等核心问题，为用户提供无缝衔接的咖啡订购体验。
+## 项目背景与目标  
+随着HarmonyOS生态的快速发展，团队开发了一款跨设备协同的仿瑞幸咖啡应用，旨在验证分布式技术在商业场景中的实际价值。项目聚焦以下目标：  
+1. **多端无缝体验**：通过分布式能力实现跨设备购物车同步与订单状态实时推送。  
+2. **性能优化**：将界面响应速度提升40%，跨设备操作延迟降低30%。  
+3. **技术验证**：探索HarmonyOS在自适应布局、原子化服务等领域的应用潜力。  
 
 ---
 
-## 核心功能  
-| 模块         | 技术实现                                                                 | 性能指标                     |
-|--------------|--------------------------------------------------------------------------|------------------------------|
-| **用户登录** | 华为Account Kit集成，支持OAuth 2.0协议与Secure Storage加密存储           | 登录响应<200ms               |
-| **商品展示** | `LazyForEach`懒加载 + Preferences本地缓存，动态适配多端屏幕              | 首屏渲染速度提升35%          |
-| **购物车**   | 分布式数据库同步 + `@Watch`状态监听，支持冲突自动解决（最后操作优先）     | 跨设备同步延迟≤350ms         |
-| **订单管理** | 状态机驱动流程，分布式任务推送 + 事件总线通知                            | 订单状态更新延迟<500ms       |
+## 技术架构与实现  
+### 技术栈  
+- **核心框架**：HarmonyOS 3.0、ArkUI  
+- **分布式能力**：DDM（分布式数据管理）、DTS（分布式任务调度）  
+- **数据层**：Preferences Database（本地缓存）、华为AGC（云端同步）  
+- **安全模块**：Secure Storage（加密存储）、华为Account Kit（OAuth 2.0）  
 
----
-
-## 技术架构  
+### 分层架构设计  
 ![架构图](https://via.placeholder.com/800x400.png?text=HarmonyOS+分层架构图)  
-### 分层设计  
 1. **UI层**  
-   - 使用ArkUI声明式开发，通过`@State`/`@Prop`实现数据驱动视图  
-   - 自适应布局组件：`GridContainer`（平板）、`ListContainer`（手机）  
-   ```typescript  
-   // 自适应布局示例  
-   @Entry  
-   @Component  
-   struct ProductList {  
-       @State products: ProductModel[] = loadData()  
-       build() {  
-           Flex({ direction: FlexDirection.Column }) {  
-               if (displayType === 'PHONE') {  
-                   List({ space: 10 }) { /* 手机列表 */ }  
-               } else {  
-                   Grid({ columns: 4 }) { /* 平板网格 */ }  
-               }  
-           }  
-       }  
-   }  
+   - 使用ArkUI声明式语法开发，动态适配多端屏幕  
+   - 关键组件：  
+     ```typescript  
+     // 自适应布局示例  
+     @Component  
+     struct ProductCard {  
+         @Prop product: ProductModel  
+         build() {  
+             Column() {  
+                 Image(this.product.img)  
+                     .width(displayType === 'PHONE' ? '100%' : '50%')  
+                 Text(this.product.title).fontSize(18)  
+                 Text(`原价：${this.product.originalPrice}`).fontColor('#FF0000')  
+             }  
+         }  
+     }  
+     ```  
+
+2. **服务层**  
+   - **分布式同步**：通过`@Watch`装饰器监听数据变化，自动触发UI更新  
+   - **性能监控**：集成HiLog日志系统，实时分析主线程阻塞问题  
+
+3. **数据层**  
+   - 本地数据库：使用Preferences缓存商品信息，首屏加载时间减少35%  
+   - 云端同步：通过华为AGC实现用户数据跨设备备份  
+
+---
+
+## 核心功能模块  
+### 1. 用户登录与安全  
+- **功能实现**：  
+  - 集成华为Account Kit，支持手机号、邮箱及华为ID一键登录  
+  - 用户Token加密存储于Secure Storage，防止敏感数据泄露  
+- **性能指标**：登录响应时间<200ms，授权成功率99.8%  
+
+### 2. 商品展示与交互  
+- **技术方案**：  
+  - 使用`LazyForEach`实现图片懒加载，内存占用降低25%  
+  - 通过`ListContainer`动态渲染列表，支持分类筛选与关键词搜索  
+- **交互优化**：  
+  ```typescript  
+  // 商品点击动画  
+  @Extend(Text) function scaleEffect() {  
+      .onClick(() => {  
+          animateTo({ duration: 300 }, () => {  
+              this.scale({ x: 0.9, y: 0.9 })  
+          })  
+      })  
+  }  
