@@ -19,32 +19,6 @@
 - **安全模块**：Secure Storage（加密存储）、华为Account Kit（OAuth 2.0）  
 
 ### 分层架构设计  
-## 技术架构  
-```mermaid
-graph TD
-    subgraph UI层
-        A[ArkUI组件] --> B[自适应布局]
-        B --> C[手机/Pad/手表适配]
-        A --> D[交互动画]
-    end
-
-    subgraph 服务层
-        E[分布式数据管理 DDM] --> F[数据同步]
-        E --> G[冲突解决策略]
-        H[分布式任务调度 DMS] --> I[订单状态推送]
-        J[性能监控] --> K[HiLog日志分析]
-        J --> L[DevEco Profiler]
-    end
-
-    subgraph 数据层
-        M[本地数据库] --> N[Preferences缓存]
-        M --> O[RDB关系型数据]
-        P[云端同步] --> Q[华为AGC数据托管]
-        P --> R[用户数据备份]
-    end
-
-    UI层 -->|事件驱动| 服务层
-    服务层 -->|数据读写| 数据层
 1. **UI层**  
    - 使用ArkUI声明式语法开发，动态适配多端屏幕  
    - 关键组件：  
